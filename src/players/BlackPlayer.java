@@ -1,4 +1,5 @@
 package players;
+import pieces.Piece;
 
 public class BlackPlayer implements Player {
     private final String name;

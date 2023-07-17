@@ -1,4 +1,5 @@
 package players;
+import pieces.Piece;
 
 public interface Player {
     String getName();

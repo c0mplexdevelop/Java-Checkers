@@ -7,8 +7,6 @@ import pieces.WhitePiece;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Checkers {
     Board<Piece> board;
     WhitePlayer player1;
