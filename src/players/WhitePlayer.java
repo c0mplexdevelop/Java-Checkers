@@ -22,6 +22,6 @@ public class WhitePlayer implements Player {
 
     @Override
     public boolean capture(Piece piece, Piece capturingPiece) {
-
+        return false;
     }
 }
