@@ -3,6 +3,8 @@ import pieces.Piece;
 
 public interface Player {
     String getName();
-    void move(Piece piece, int row, int col);
+    void move(Piece piece, String direction);
+
+    Piece getPiece(Piece[][] board, int row, int col);
     boolean capture(Piece piece, Piece capturingPiece);
 }
