@@ -59,7 +59,7 @@ public class Checkers {
 
         int startCol = row % 2 == 0 ? 0 : 1; // If row is even, start at 0, else start at 1
         for(int col = startCol; startCol < board[row].length; startCol += 2) {
-            board[row][col] = pieceFactory.createPiece(row, startCol);
+            board[row][col] = pieceFactory.createPiece(row, startCol, false);
         }
 
     }
