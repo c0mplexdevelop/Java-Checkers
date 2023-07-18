@@ -17,6 +17,10 @@ public class BlackPlayer implements Player {
 
     }
 
+    public Piece getPiece(Piece[][] board, int row, int col) {
+        return board[row][col];
+    }
+
     @Override
     public boolean capture(Piece piece, Piece capturingPiece) {
         return false;
