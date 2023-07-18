@@ -16,7 +16,7 @@ public class WhitePlayer implements Player {
     }
 
     @Override
-    public void move(Piece piece, int row, int col) {
+    public void move(Piece piece, String direction) {
 
     }
 
