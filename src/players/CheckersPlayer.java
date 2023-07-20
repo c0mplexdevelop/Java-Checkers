@@ -15,6 +15,8 @@ public abstract class CheckersPlayer implements Player {
             throw new IllegalPositionException("Position is out of bounds! Max row: %d, max col: %d".formatted(maxRow, maxCol));
         } else if(row < minRow || col < minCol) {
             throw new IllegalPositionException("Position is out of bounds! Min row: %d, min col: %d".formatted(minRow, minCol));
+        } else if (board[row][col] == null) {
+            throw new IllegalPositionException("Position is empty!");
         }
         return board[row][col];
     }
