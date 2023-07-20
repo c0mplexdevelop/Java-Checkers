@@ -57,11 +57,6 @@ public class BlackPlayer extends CheckersPlayer {
         piece.setRow(pieceRow + deltaRow); // Plus since if its negative, it will be subtracted anyway
         piece.setCol(pieceCol + deltaCol);
     }
-
-    public Piece getPiece(Piece[][] board, int row, int col) {
-        return board[row][col];
-    }
-
     @Override
     public boolean capture(Piece piece, Piece capturingPiece) {
         return false;
