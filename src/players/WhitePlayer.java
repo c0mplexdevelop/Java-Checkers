@@ -1,9 +1,10 @@
 package players;
 
 import exceptions.IllegalMoveException;
+import exceptions.IllegalPositionException;
 import pieces.Piece;
 
-public class WhitePlayer implements Player {
+public class WhitePlayer extends CheckersPlayer {
 
     private final String name;
 
@@ -25,44 +26,29 @@ public class WhitePlayer implements Player {
         int deltaRow = 0;
         int deltaCol = 0;
 
-        if(!pieceIsKing) {
-            switch(direction.toLowerCase()) {
-                case "up-left" -> {
-                    deltaRow = 1;
-                    deltaCol = -1;
-                }
-                case "up-right" -> {
-                    deltaRow = 1;
-                    deltaCol = 1;
-                }
-                case "down-left", "down-right" -> {
-                    throw new IllegalMoveException("Piece is not promoted yet!");
-                }
-                default -> {
-                    throw new IllegalMoveException("Invalid direction!");
-                }
+        switch(direction.toLowerCase()) {
+            case "up-left" -> {
+                deltaRow = 1;
+                deltaCol = -1;
             }
-        } else {
-            switch(direction.toLowerCase()) {
-                case "up-left" -> {
-                    deltaRow = 1;
-                    deltaCol = -1;
-                }
-                case "up-right" -> {
-                    deltaRow = 1;
-                    deltaCol = 1;
-                }
-                case "down-left" -> {
-                    deltaRow = -1;
-                    deltaCol = -1;
-                }
-                case "down-right" -> {
-                    deltaRow = -1;
-                    deltaCol = 1;
-                }
-                default -> {
-                    throw new IllegalMoveException("Invalid direction!");
-                }
+            case "up-right" -> {
+                deltaRow = 1;
+                deltaCol = 1;
+            }
+            case "down-left" -> {
+                if(!pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
+                deltaRow = -1;
+                deltaCol = -1;
+            }
+
+            case "down-right" -> {
+                if(!pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
+                deltaRow = -1;
+                deltaCol = 1;
+            }
+
+            default -> {
+                throw new IllegalMoveException("Invalid direction!");
             }
         }
 
