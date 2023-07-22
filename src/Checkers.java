@@ -7,6 +7,8 @@ import players.Player;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
+import java.util.Scanner;
+
 public class Checkers {
     private final Board<Piece> board;
 
@@ -63,6 +65,94 @@ public class Checkers {
         int startCol = row % 2 == 0 ? 1 : 0; // If row is even, start at 0, else start at 1
         for(int col = startCol; startCol < board[row].length; startCol += 2) {
             board[row][col] = pieceFactory.createPiece(row, startCol, false);
+        }
+    }
+
+    private void printBoard() {
+        Piece[][] board = this.board.getBoard();
+        int rowLength = board.length;
+        int colLength = board[0].length;
+        for (int rowIdx = 0; rowIdx < rowLength; rowIdx++) {
+            System.out.printf("%d |", rowIdx + 1);
+            for (int colIdx = 0; colIdx < colLength; colIdx++) {
+                Piece piece = board[rowIdx][colIdx];
+                printPiece(piece);
+                printBoardEdge(colIdx, colLength);
+            }
+        }
+        showColumns(colLength);
+    }
+
+    public void showColumns(int colLength) {
+        String firstIndent = "     ";
+        System.out.print(firstIndent);
+        for(int i = 0; i < colLength; i++) {
+            System.out.printf("%d     ", i + 1);
+        }
+    }
+
+    public void printPiece(Piece piece) {
+        if(piece == null) {
+            System.out.print("     ");
+        } else {
+            System.out.printf(" %s ", piece);
+        }
+    }
+
+    public void printBoardEdge(int col_idx, int length) {
+        if(col_idx != length - 1) {
+            System.out.print("|");
+        } else {
+            System.out.println();
+        }
+    }
+
+    private int[] getPlayerInput(Scanner scanner) {
+        while(true) {
+            System.out.print("Enter row: ");
+            int row = scanner.nextInt();
+            if (!scanner.hasNextInt()) {
+                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.nextLine());
+                continue;
+            }
+
+            System.out.print("Enter column: ");
+            int col = scanner.nextInt();
+            if (!scanner.hasNextInt()) {
+                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.nextLine());
+                continue;
+            }
+
+            int idxRow = row - 1, idxCol = col - 1;
+            return new int[]{idxRow, idxCol};
+        }
+    }
+
+
+    public static void main(String[] args) {
+        Checkers checkers = new Checkers();
+        Piece[][] board = checkers.board.getBoard();
+        Scanner scanner = new Scanner(System.in);
+
+        while(checkers.winner == null) {
+            for(Player player : checkers.players) {
+                checkers.printBoard();
+                System.out.printf("%s's turn:\n", player.getName());
+
+                Piece piece = null;
+                while(piece == null) {
+                    int[] position = checkers.getPlayerInput(scanner);
+                    int row = position[0], col = position[1];
+                    try {
+                        piece = player.getPiece(board, row, col);
+                    } catch (IllegalPositionException posException) {
+                        System.out.println(posException.getMessage());
+                        continue;
+                    }
+                }
+
+
+            }
         }
 
     }
