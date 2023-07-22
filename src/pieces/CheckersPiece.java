@@ -1,14 +1,20 @@
 package pieces;
 
-public abstract class CheckersPiece implements Piece {
-    protected int row;
-    protected int col;
-    protected boolean isKing;
+public class CheckersPiece implements Piece {
+    private int row;
+    private int col;
+    private boolean isKing;
 
-    public CheckersPiece(int row, int col, boolean isKing) {
+    private PieceType type;
+
+    private String color;
+
+    public CheckersPiece(int row, int col, boolean isKing, PieceType type) {
         this.row = row;
         this.col = col;
         this.isKing = isKing;
+        this.type = type;
+        this.color = type == PieceType.WHITE ? "W" : "B";
     }
 
     public int getRow() {
@@ -29,5 +35,17 @@ public abstract class CheckersPiece implements Piece {
 
     public boolean isKing() {
         return this.isKing;
+    }
+
+    public PieceType getType() {
+        return this.type;
+    }
+
+    public void promote() {
+        this.isKing = true;
+    }
+    @Override
+    public String toString() {
+        return isKing ? "K%sP".formatted(color) : "%sPP".formatted(color);
     }
 }
