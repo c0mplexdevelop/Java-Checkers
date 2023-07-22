@@ -1,21 +1,24 @@
+import exceptions.IllegalPositionException;
 import factories.BlackPieceFactory;
 import factories.PieceFactory;
 import factories.WhitePieceFactory;
-import pieces.BlackPiece;
 import pieces.Piece;
-import pieces.WhitePiece;
+import players.Player;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
 public class Checkers {
-    Board<Piece> board;
-    WhitePlayer player1;
-    BlackPlayer player2;
+    private final Board<Piece> board;
+
+    private final Player[] players = new Player[2];
+
+    private Player winner;
 
     public Checkers() {
-        board = new Board<>();
-        player1 = new WhitePlayer("players.Player 1");
-        player2 = new BlackPlayer("players.Player 2");
+        board = new Board<>(Piece.class);
+        for (int i = 0; i < players.length; i++) {
+            players[i] = i == 0 ? new WhitePlayer("White") : new BlackPlayer("Black");
+        }
 
         fillBoard(board.getBoard());
     }
