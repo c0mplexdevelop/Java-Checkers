@@ -1,15 +1,14 @@
+import java.lang.reflect.Array;
+
 public class Board<T> {
 
-    private final T[][] board;
+    private T[][] board;
 
     private static final int DEFAULT_SIZE = 8;
-    public Board() {
-        this.board = createBoard(DEFAULT_SIZE, DEFAULT_SIZE);
+    public Board(Class<T> clazz) {
+        this.board = (T[][]) Array.newInstance(clazz, DEFAULT_SIZE, DEFAULT_SIZE);
     }
 
-    public T[][] createBoard(int rows, int cols) {
-        return (T[][]) new Object[rows][cols];
-    }
 
     public T[][] getBoard() {
         return this.board;
