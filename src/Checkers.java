@@ -146,6 +146,29 @@ public class Checkers {
         }
     }
 
+    private String getPlayerDirection(Scanner scanner) {
+        while(true) {
+            System.out.print("Enter direction: ");
+            String direction = scanner.nextLine();
+            if(direction.equals("up-left") || direction.equals("up-right") || direction.equals("down-left") || direction.equals("down-right")) {
+                return direction;
+            } else {
+                System.out.printf("The input %s is invalid. Please enter either 'up' or 'down'.\n", direction);
+            }
+        }
+    }
+
+    private void updatePiecePosition(Piece[][] board, Piece piece, int[] prevPosition) throws IllegalMoveException {
+        int prevRow = prevPosition[0], prevCol = prevPosition[1];
+        int currRow = piece.getRow(), currCol = piece.getCol();
+        Piece currPiece = board[currRow][currCol];
+        if(board[currRow][currCol] != null && !currPiece.equals(piece)) {
+            throw new IllegalMoveException("There is already a piece at this position. %s %d %d".formatted(piece, piece.getRow(), piece.getCol()));
+        }
+        board[prevRow][prevCol] = null;
+        board[currRow][currCol] = piece;
+    }
+
 
     public static void main(String[] args) {
         Checkers checkers = new Checkers();
