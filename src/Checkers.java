@@ -101,6 +101,7 @@ public class Checkers {
         for(int i = 0; i < colLength; i++) {
             System.out.printf("%d     ", i + 1);
         }
+        System.out.println();
     }
 
     public void printPiece(Piece piece) {
