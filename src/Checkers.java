@@ -1,12 +1,18 @@
 import exceptions.IllegalPositionException;
+import exceptions.IllegalMoveException;
+
 import factories.BlackPieceFactory;
 import factories.PieceFactory;
 import factories.WhitePieceFactory;
+
 import pieces.Piece;
+
+import players.CheckersPlayer;
 import players.Player;
 import players.BlackPlayer;
 import players.WhitePlayer;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Checkers {
