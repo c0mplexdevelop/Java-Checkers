@@ -37,9 +37,9 @@ public class Checkers {
 
         for(int i = 0; i < board.length; i++) {
             if(i < 3) {
-                placePieces(board, i, whiteFactory);
-            } else if(i > 4) {
                 placePieces(board, i, blackFactory);
+            } else if(i > 4) {
+                placePieces(board, i, whiteFactory);
             }
         }
     }
