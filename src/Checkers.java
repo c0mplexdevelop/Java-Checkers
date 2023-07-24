@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Checkers {
     private final Board<Piece> board;
 
-    private final Player[] players = new Player[2];
+    private final CheckersPlayer[] players = new CheckersPlayer[2];
 
     private Player winner;
 
