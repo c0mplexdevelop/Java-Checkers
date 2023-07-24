@@ -182,7 +182,7 @@ public class Checkers {
 
                 Piece piece = null;
                 while(piece == null) {
-                    int[] position = checkers.getPlayerInput(scanner);
+                    int[] position = checkers.getPlayerPiece(scanner);
                     int row = position[0], col = position[1];
                     try {
                         piece = player.getPiece(board, row, col);
