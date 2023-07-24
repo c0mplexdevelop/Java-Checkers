@@ -54,8 +54,10 @@ public class BlackPlayer extends CheckersPlayer {
             throw new IllegalMoveException("Piece cannot move out of bounds!");
         }
 
-        piece.setRow(pieceRow + deltaRow); // Plus since if its negative, it will be subtracted anyway
-        piece.setCol(pieceCol + deltaCol);
+        int newRow = pieceRow + deltaRow;
+        int newCol = pieceCol + deltaCol;
+        piece.setRow(newRow); // Plus since if its negative, it will be subtracted anyways
+        piece.setCol(newCol);
     }
     @Override
     public boolean capture(Piece piece, Piece capturingPiece) {
