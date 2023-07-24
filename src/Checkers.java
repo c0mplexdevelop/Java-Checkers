@@ -120,23 +120,28 @@ public class Checkers {
         }
     }
 
-    private int[] getPlayerInput(Scanner scanner) {
+    private int[] getPlayerPiece(Scanner scanner) {
         while(true) {
             System.out.print("Enter row: ");
-            int row = scanner.nextInt();
             if (!scanner.hasNextInt()) {
-                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.nextLine());
+                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.next());
                 continue;
             }
+            int row = scanner.nextInt() - 1;
+            System.out.println();
+
 
             System.out.print("Enter column: ");
-            int col = scanner.nextInt();
             if (!scanner.hasNextInt()) {
-                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.nextLine());
+                System.out.printf("The input %s is invalid. Please enter a number.\n", scanner.next());
                 continue;
             }
+            int col = scanner.nextInt();
+            scanner.nextLine();
 
-            int idxRow = row - 1, idxCol = col - 1;
+
+            int idxRow = board.getBoard().length - row - 1, idxCol = col - 1;
+            System.out.println(idxRow);
             return new int[]{idxRow, idxCol};
         }
     }
