@@ -188,11 +188,22 @@ public class Checkers {
                         piece = player.getPiece(board, row, col);
                     } catch (IllegalPositionException posException) {
                         System.out.println(posException.getMessage());
-                        continue;
                     }
                 }
 
+                System.out.println("%s %d %d".formatted(piece, piece.getRow(), piece.getCol()));
+                int[] prevPosition = {piece.getRow(), piece.getCol()};
 
+                while(true) {
+                    String direction = checkers.getPlayerDirection(scanner);
+                    try {
+                        player.move(piece, direction);
+                        checkers.updatePiecePosition(board, piece, prevPosition);
+                        break;
+                    } catch (IllegalMoveException moveException) {
+                        System.out.println(moveException.getMessage());
+                    }
+                }
             }
         }
 
