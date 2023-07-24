@@ -89,6 +89,10 @@ public class Checkers {
             }
         }
         showColumns(colLength);
+
+        for(Piece[] row : board) {
+            System.out.println(Arrays.toString(row));
+        }
     }
 
     public void showColumns(int colLength) {
