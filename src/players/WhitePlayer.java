@@ -56,9 +56,11 @@ public class WhitePlayer extends CheckersPlayer {
         if(pieceRow + deltaRow < 0 || pieceCol + deltaCol < 0 || pieceRow + deltaRow > 7 || pieceCol + deltaCol > 7) {
             throw new IllegalMoveException("Piece cannot move out of bounds!");
         }
-
-        piece.setRow(pieceRow + deltaRow); // Plus since if its negative, it will be subtracted anyways
-        piece.setCol(pieceCol + deltaCol);
+        int newRow = pieceRow + deltaRow;
+        int newCol = pieceCol + deltaCol;
+        System.out.println("New row: %d, new col: %d".formatted(newRow, newCol));
+        piece.setRow(newRow); // Plus since if its negative, it will be subtracted anyways
+        piece.setCol(newCol);
     }
 
     @Override
