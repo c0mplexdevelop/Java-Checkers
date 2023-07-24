@@ -25,23 +25,23 @@ public class BlackPlayer extends CheckersPlayer {
         int deltaCol = 0;
         switch(direction.toLowerCase()) {
             case "down-left" -> {
-                deltaRow = -1;
+                deltaRow = 1;
                 deltaCol = -1;
             }
             case "down-right" -> {
-                deltaRow = -1;
+                deltaRow = 1;
                 deltaCol = 1;
             }
 
             case "up-left" -> {
                 if(pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
-                deltaRow = 1;
+                deltaRow = -1;
                 deltaCol = -1;
             }
 
             case "up-right" -> {
                 if(!pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
-                deltaRow = 1;
+                deltaRow = -1;
                 deltaCol = 1;
             }
 
