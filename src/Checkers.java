@@ -176,7 +176,7 @@ public class Checkers {
         Scanner scanner = new Scanner(System.in);
 
         while(checkers.winner == null) {
-            for(Player player : checkers.players) {
+            for(CheckersPlayer player : checkers.players) {
                 checkers.printBoard();
                 System.out.printf("%s's turn:\n", player.getName());
 
