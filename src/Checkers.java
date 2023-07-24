@@ -68,7 +68,7 @@ public class Checkers {
         Better implementation of the above methods.
          */
 
-        int startCol = row % 2 == 0 ? 1 : 0; // If row is even, start at 0, else start at 1
+        int startCol = row % 2 == 0 ? 0 : 1; // If row is even, start at 0, else start at 1
         int boardLength = board[row].length;
 
         for(int col = startCol; col < boardLength; col += 2) {
@@ -81,7 +81,7 @@ public class Checkers {
         int rowLength = board.length;
         int colLength = board[0].length;
         for (int rowIdx = 0; rowIdx < rowLength; rowIdx++) {
-            System.out.printf("%d |", rowIdx + 1);
+            System.out.printf("%d |", (8-rowIdx));
             for (int colIdx = 0; colIdx < colLength; colIdx++) {
                 Piece piece = board[rowIdx][colIdx];
                 printPiece(piece);
