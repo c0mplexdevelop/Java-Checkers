@@ -28,22 +28,22 @@ public class WhitePlayer extends CheckersPlayer {
 
         switch(direction.toLowerCase()) {
             case "up-left" -> {
-                deltaRow = 1;
+                deltaRow = -1;
                 deltaCol = -1;
             }
             case "up-right" -> {
-                deltaRow = 1;
+                deltaRow = -1;
                 deltaCol = 1;
             }
             case "down-left" -> {
                 if(!pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
-                deltaRow = -1;
+                deltaRow = 1;
                 deltaCol = -1;
             }
 
             case "down-right" -> {
                 if(!pieceIsKing) throw new IllegalMoveException("Piece is not promoted yet!");
-                deltaRow = -1;
+                deltaRow = 1;
                 deltaCol = 1;
             }
 
