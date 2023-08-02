@@ -1,4 +1,4 @@
-package pieces;
+package old.pieces;
 
 public interface Piece {
     int getRow();

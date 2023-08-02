@@ -1,8 +1,8 @@
-package factories;
+package old.factories;
 
-import pieces.CheckersPiece;
-import pieces.Piece;
-import pieces.PieceType;
+import old.pieces.CheckersPiece;
+import old.pieces.Piece;
+import old.pieces.PieceType;
 
 public class BlackPieceFactory implements PieceFactory {
     @Override

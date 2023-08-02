@@ -1,4 +1,4 @@
-package pieces;
+package old.pieces;
 
 public enum PieceType {
     WHITE,

@@ -1,6 +1,6 @@
-package factories;
+package old.factories;
 
-import pieces.Piece;
+import old.pieces.Piece;
 
 public interface PieceFactory {
     Piece createPiece(int row, int col, boolean isKing);

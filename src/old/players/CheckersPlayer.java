@@ -1,11 +1,12 @@
-package players;
-import exceptions.IllegalMoveException;
-import pieces.Piece;
+package old.players;
+import old.exceptions.IllegalMoveException;
+import old.exceptions.IllegalPromotionException;
+import old.pieces.Piece;
 
-import exceptions.IllegalPositionException;
+import old.exceptions.IllegalPositionException;
 
 public abstract class CheckersPlayer implements Player {
-    public abstract void move(Piece piece, String direction) throws IllegalMoveException;
+    public abstract void move(Piece piece, String direction) throws IllegalMoveException, IllegalPromotionException;
 
     public Piece getPiece(Piece[][] board, int row, int col) throws IllegalPositionException{
         int minRow = 0, minCol = 0;
@@ -20,4 +21,6 @@ public abstract class CheckersPlayer implements Player {
         }
         return board[row][col];
     }
+
+    public abstract boolean capture(Piece[][] board, Piece piece, Piece capturedPiece);
 }

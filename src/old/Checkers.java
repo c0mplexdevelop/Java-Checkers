@@ -1,16 +1,19 @@
-import exceptions.IllegalPositionException;
-import exceptions.IllegalMoveException;
+package old;
 
-import factories.BlackPieceFactory;
-import factories.PieceFactory;
-import factories.WhitePieceFactory;
+import old.exceptions.IllegalPositionException;
+import old.exceptions.IllegalMoveException;
 
-import pieces.Piece;
+import old.exceptions.IllegalPromotionException;
+import old.factories.BlackPieceFactory;
+import old.factories.PieceFactory;
+import old.factories.WhitePieceFactory;
 
-import players.CheckersPlayer;
-import players.Player;
-import players.BlackPlayer;
-import players.WhitePlayer;
+import old.pieces.Piece;
+
+import old.players.CheckersPlayer;
+import old.players.Player;
+import old.players.BlackPlayer;
+import old.players.WhitePlayer;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -47,7 +50,7 @@ public class Checkers {
 //    private void placePiecesInEvenRows(Piece[][] board, int row, PieceFactory pieceFactory) {
 //        /*
 //         For Future Me: This is done so that the method is somewhat adhering to SOLID principles.
-//         By creating a Factory for pieces, we can create a new piece without having to change the
+//         By creating a Factory for old.pieces, we can create a new piece without having to change the
 //         code in this method. This is because the factory will create the piece for us.
 //         */
 //        board[row][0] = pieceFactory.createPiece(row, 0);
@@ -72,7 +75,7 @@ public class Checkers {
         int boardLength = board[row].length;
 
         for(int col = startCol; col < boardLength; col += 2) {
-            board[row][col] = pieceFactory.createPiece(row, startCol, false);
+            board[row][col] = pieceFactory.createPiece(row, col, false);
         }
     }
 
@@ -90,9 +93,9 @@ public class Checkers {
         }
         showColumns(colLength);
 
-        for(Piece[] row : board) {
-            System.out.println(Arrays.toString(row));
-        }
+//        for(Piece[] row : board) {
+//            System.out.println(Arrays.toString(row));
+//        }
     }
 
     public void showColumns(int colLength) {
@@ -141,7 +144,7 @@ public class Checkers {
 
 
             int idxRow = board.getBoard().length - row - 1, idxCol = col - 1;
-            System.out.println(idxRow);
+            System.out.printf("New Row: %d, New Col: %d", idxRow, idxCol);
             return new int[]{idxRow, idxCol};
         }
     }
@@ -158,15 +161,35 @@ public class Checkers {
         }
     }
 
-    private void updatePiecePosition(Piece[][] board, Piece piece, int[] prevPosition) throws IllegalMoveException {
+    private void updatePiecePosition(Piece[][] board, Piece piece, int[] prevPosition, boolean capturing) throws IllegalMoveException {
+        if(capturing) {
+            board[piece.getRow()][piece.getCol()] = piece;
+            return;
+        }
         int prevRow = prevPosition[0], prevCol = prevPosition[1];
         int currRow = piece.getRow(), currCol = piece.getCol();
         Piece currPiece = board[currRow][currCol];
         if(board[currRow][currCol] != null && !currPiece.equals(piece)) {
-            throw new IllegalMoveException("There is already a piece at this position. %s %d %d".formatted(piece, piece.getRow(), piece.getCol()));
+            piece.setRow(prevRow);
+            piece.setCol(prevCol);
+            throw new IllegalMoveException("There is already a piece at this position. %s %d %d".formatted(currPiece, currPiece.getRow(), currPiece.getCol()));
         }
         board[prevRow][prevCol] = null;
         board[currRow][currCol] = piece;
+    }
+
+    private boolean checkIfSpaceBehindIsEmpty(Piece piece, int[] prevPosition) {
+        int prevRow = prevPosition[0], prevCol = prevPosition[1];
+        int currRow = piece.getRow(), currCol = piece.getCol();
+        int deltaRow = (currRow - prevRow) * 2, deltaCol = (currCol - prevCol) * 2;
+
+        System.out.println(deltaRow);
+
+        int rowBehindCapturingPiece = prevRow + deltaRow, colBehindCapturingPiece = prevCol + deltaCol;
+
+        System.out.println(board.getBoard()[rowBehindCapturingPiece][colBehindCapturingPiece]);
+
+        return board.getBoard()[rowBehindCapturingPiece][colBehindCapturingPiece] == null;
     }
 
 
@@ -183,6 +206,7 @@ public class Checkers {
                 Piece piece = null;
                 while(piece == null) {
                     int[] position = checkers.getPlayerPiece(scanner);
+                    System.out.println(Arrays.toString(position));
                     int row = position[0], col = position[1];
                     try {
                         piece = player.getPiece(board, row, col);
@@ -191,21 +215,43 @@ public class Checkers {
                     }
                 }
 
-                System.out.println("%s %d %d".formatted(piece, piece.getRow(), piece.getCol()));
+                System.out.printf("%s %d %d%n", piece, piece.getRow(), piece.getCol());
                 int[] prevPosition = {piece.getRow(), piece.getCol()};
+                int[] savedNewPosition = new int[2];
 
-                while(true) {
+                boolean isCapturing = false;
+                while(!isCapturing) {
                     String direction = checkers.getPlayerDirection(scanner);
                     try {
                         player.move(piece, direction);
-                        checkers.updatePiecePosition(board, piece, prevPosition);
+                        savedNewPosition[0] = piece.getRow();
+                        savedNewPosition[1] = piece.getCol();
+                        checkers.updatePiecePosition(board, piece, prevPosition, isCapturing);
                         break;
+                    } catch (IllegalMoveException moveException) {
+                        /*
+                        updatePiecePosition would return the piece to its previous position if the move is illegal.
+                        But we save the savedNewPosition to pass for capturing.
+                         */
+                        if(checkers.checkIfSpaceBehindIsEmpty(piece, savedNewPosition)) isCapturing = true;
+
+                    } catch (IllegalPromotionException promotionException) {
+                        System.out.println(promotionException.getMessage());
+                    }
+                }
+
+                if(isCapturing) {
+                    System.out.println("Capturing");
+                    Piece capturedPiece = board[savedNewPosition[0]][savedNewPosition[1]];
+                    System.out.println(capturedPiece);
+                    player.capture(board, piece, capturedPiece);
+                    try {
+                        checkers.updatePiecePosition(board, piece, savedNewPosition, isCapturing);
                     } catch (IllegalMoveException moveException) {
                         System.out.println(moveException.getMessage());
                     }
                 }
             }
         }
-
     }
 }
