@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rewrite.MenuView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rewrite.MenuController">
    <children>
       <Label layoutX="180.0" layoutY="76.0" text="Welcome to Checkers!">
          <font>
@@ -18,6 +17,6 @@
       <Label layoutX="284.0" layoutY="164.0" text="Rows" />
       <TextField fx:id="columnTextField" layoutX="226.0" layoutY="267.0" />
       <Label layoutX="274.0" layoutY="239.0" text="Columns" />
-      <Button fx:id="playButton" layoutX="274.0" layoutY="326.0" mnemonicParsing="false" text="Play!" />
+      <Button fx:id="playButton" layoutX="274.0" layoutY="326.0" mnemonicParsing="false" onAction="#onPlayButtonClick" text="Play!" />
    </children>
 </AnchorPane>
