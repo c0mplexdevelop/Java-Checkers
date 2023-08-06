@@ -42,6 +42,23 @@ public class BoardController {
         }
 
         //TODO: Add different colored squares
+        /*
+        There was a bug in this code, due to SquareView.fxml Vbox uses USE_PREF_SIZE for min and max sizes. This prevents
+        the proper size (computed) in the GridPane. The solution is to set the min and max sizes to USE_COMPUTED_SIZE.
+         */
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("SquareView.fxml"));
+                SquareController controller = new SquareController(row, col);
+                loader.setController(controller);
+                HBox squareVBox = loader.load();
+                rootGrid.add(squareVBox, col, row);
+            }
+        }
+
+
+
+
         //TODO: Add pieces to the board
         //TODO: Add piece movement
         //TODO: Add piece capture
