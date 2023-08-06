@@ -15,8 +15,10 @@ public class MenuController {
 
     @FXML
     private void onPlayButtonClick() throws Exception {
+        int rows = rowTextField.getText().isEmpty() ? 8 : Integer.parseInt(rowTextField.getText());
+        int cols = columnTextField.getText().isEmpty() ? 8 : Integer.parseInt(columnTextField.getText());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BoardView.fxml"));
-        BoardController controller = new BoardController(Integer.parseInt(rowTextField.getText()), Integer.parseInt(columnTextField.getText()));
+        BoardController controller = new BoardController(rows, cols);
         loader.setController(controller);
         playButton.getScene().setRoot(loader.load());
     }
