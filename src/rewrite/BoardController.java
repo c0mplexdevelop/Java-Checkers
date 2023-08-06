@@ -3,10 +3,12 @@ package rewrite;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
-
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.HBox;
 
 
 public class BoardController {
