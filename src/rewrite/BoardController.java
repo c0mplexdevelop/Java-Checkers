@@ -23,8 +23,6 @@ public class BoardController {
 
     @FXML
     private void initialize() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoardView.fxml"));
-
         for(int i = 0; i < rows; i++) {
             RowConstraints row = new RowConstraints();
             row.setPercentHeight(100.0 / rows);
