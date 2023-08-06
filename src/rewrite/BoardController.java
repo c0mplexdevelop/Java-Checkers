@@ -26,14 +26,17 @@ public class BoardController {
         for(int i = 0; i < rows; i++) {
             RowConstraints row = new RowConstraints();
             row.setPercentHeight(100.0 / rows);
-
-            boardGridPane.getRowConstraints().add(row);
+            row.setVgrow(Priority.SOMETIMES);
+            row.setValignment(VPos.CENTER);
+            rootGrid.getRowConstraints().add(row);
         }
 
         for(int j = 0; j < cols; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setPercentWidth(100.0 / cols);
-            boardGridPane.getColumnConstraints().add(col);
+            col.setFillWidth(true);
+            col.setHgrow(Priority.SOMETIMES);
+            rootGrid.getColumnConstraints().add(col);
         }
 
         //TODO: Add different colored squares
