@@ -1,0 +1,7 @@
+.white-square {
+    -fx-background-color: #dcd1ca;
+}
+
+.black-square {
+    -fx-background-color: rgba(238, 117, 40, 0.58);
+}
