@@ -14,7 +14,7 @@ public class BoardController {
     private final int cols;
 
     @FXML
-    private GridPane boardGridPane;
+    private GridPane rootGrid;
 
     public BoardController(int rows, int cols) {
         this.rows = rows;
