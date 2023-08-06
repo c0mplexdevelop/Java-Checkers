@@ -30,7 +30,7 @@ public class BoardController {
             boardGridPane.getRowConstraints().add(row);
         }
 
-        for(int i = 0; i < cols; i++) {
+        for(int j = 0; j < cols; j++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setPercentWidth(100.0 / cols);
             boardGridPane.getColumnConstraints().add(col);
