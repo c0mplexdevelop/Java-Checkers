@@ -10,10 +10,15 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.HBox;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 public class BoardController {
     private final int rows;
     private final int cols;
+
+    private final HBox[][] squares;
 
     @FXML
     private GridPane rootGrid;
@@ -21,6 +26,7 @@ public class BoardController {
     public BoardController(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
+        squares = new HBox[rows][cols];
     }
 
     @FXML
@@ -52,14 +58,13 @@ public class BoardController {
                 SquareController controller = new SquareController(row, col);
                 loader.setController(controller);
                 HBox squareVBox = loader.load();
+                squares[row][col] = squareVBox; // Save this so we can add it the piece to its children.
                 rootGrid.add(squareVBox, col, row);
             }
         }
 
-
-
-
         //TODO: Add pieces to the board
+
         //TODO: Add piece movement
         //TODO: Add piece capture
         //TODO: Add piece promotion
