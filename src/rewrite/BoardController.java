@@ -18,6 +18,8 @@ public class BoardController {
     private final int rows;
     private final int cols;
 
+    private final Board<Piece> board;
+
     private final HBox[][] squares;
 
     @FXML
@@ -27,6 +29,8 @@ public class BoardController {
         this.rows = rows;
         this.cols = cols;
         squares = new HBox[rows][cols];
+        board = new Board<>(rows, cols);
+        System.out.println(board.getBoard());
     }
 
     @FXML
@@ -63,8 +67,15 @@ public class BoardController {
             }
         }
 
-        //TODO: Add pieces to the board
-
+        //DONE: Add pieces to the board
+        for(HBox[] row : squares) {
+            for(HBox square : row) {
+                ImageView pieceImage = (ImageView) square.getChildren().get(0);
+                pieceImage.setImage(new Image("rewrite/Red Checkers.png"));
+                pieceImage.fitWidthProperty().bind(rootGrid.widthProperty().divide(cols));
+                pieceImage.fitHeightProperty().bind(rootGrid.heightProperty().divide(rows));
+            }
+        }
         //TODO: Add piece movement
         //TODO: Add piece capture
         //TODO: Add piece promotion
