@@ -51,7 +51,7 @@ public class BoardController {
             rootGrid.getColumnConstraints().add(col);
         }
 
-        //TODO: Add different colored squares
+        //DONE: Add different colored squares
         /*
         There was a bug in this code, due to SquareView.fxml Vbox uses USE_PREF_SIZE for min and max sizes. This prevents
         the proper size (computed) in the GridPane. The solution is to set the min and max sizes to USE_COMPUTED_SIZE.
