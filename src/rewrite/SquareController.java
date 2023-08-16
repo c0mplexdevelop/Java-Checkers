@@ -2,14 +2,18 @@ package rewrite;
 
 import javafx.fxml.FXML;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+
 
 public class SquareController {
     int row, col;
 
     @FXML
     private HBox squareVBox;
+
+    @FXML
+    private ImageView squareImageView;
 
     public SquareController(int row, int col) {
         this.row = row;
@@ -21,14 +25,18 @@ public class SquareController {
         if(row % 2 == 0) {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().add("white-square");
+                squareImageView.getStyleClass().add("white-square");
             } else {
                 squareVBox.getStyleClass().add("black-square");
+                squareImageView.getStyleClass().add("black-square");
             }
         } else {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().add("black-square");
+                squareImageView.getStyleClass().add("black-square");
             } else {
                 squareVBox.getStyleClass().add("white-square");
+                squareImageView.getStyleClass().add("white-square");
             }
         }
 
