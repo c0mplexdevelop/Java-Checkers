@@ -25,9 +25,13 @@ public class BoardController {
     @FXML
     private GridPane rootGrid;
 
+    private final Player whitePlayer, blackPlayer;
+
     public BoardController(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
+        this.whitePlayer = new Player(PieceType.WHITE);
+        this.blackPlayer = new Player(PieceType.BLACK);
         squares = new HBox[rows][cols];
         board = new Board<>(rows, cols);
         System.out.println(board.getBoard());
@@ -76,11 +80,22 @@ public class BoardController {
                 pieceImage.fitHeightProperty().bind(rootGrid.heightProperty().divide(rows));
             }
         }
-        //TODO: Add piece movement
-        //TODO: Add piece capture
-        //TODO: Add piece promotion
-        //TODO: Add win condition
-        //TODO: Add turn system
-        //TODO OPTIONAL: Add a better image for the pieces
     }
+
+    //TODO: Add piece movement
+    private void move(Piece piece, int row, int col) {
+        if(!board.isEmpty(row, col)) {
+            return; //Not empty
+        }
+        int oldCol = piece.getCol();
+        int oldRow = piece.getRow();
+
+        board.setPiece(row, col, piece);
+        board.deletePiece(oldRow, oldCol);
+    }
+    //TODO: Add piece capture
+    //TODO: Add piece promotion
+    //TODO: Add win condition
+    //TODO: Add turn system
+    //TODO OPTIONAL: Add a better image for the pieces
 }
