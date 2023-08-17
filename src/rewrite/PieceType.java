@@ -1,5 +1,5 @@
 package rewrite;
 
 public enum PieceType {
-    RED, BLACK
+    WHITE, BLACK
 }
