@@ -80,10 +80,9 @@ public class SquareController {
                 squareVBox.getStyleClass().remove("highlight-black");
             } else {
                 squareVBox.getStyleClass().remove("highlight-white");
-            } else {
-                squareVBox.getStyleClass().remove("highlight-black");
             }
         }
+    }
 
     public void setPiece() {
         squareVBox.getStyleClass().add("red-piece");
