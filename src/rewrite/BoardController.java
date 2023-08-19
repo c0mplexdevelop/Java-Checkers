@@ -72,12 +72,24 @@ public class BoardController {
         }
 
         //DONE: Add pieces to the board
-        for(HBox[] row : squares) {
-            for(HBox square : row) {
-                ImageView pieceImage = (ImageView) square.getChildren().get(0);
-                pieceImage.setImage(new Image("rewrite/Red Checkers.png"));
-                pieceImage.fitWidthProperty().bind(rootGrid.widthProperty().divide(cols));
-                pieceImage.fitHeightProperty().bind(rootGrid.heightProperty().divide(rows));
+        for(int row = 0; row < rows; row++) {
+            int startCol = row % 2 == 0 ? 1 : 0;
+            for(int col = startCol; col < cols; col+=2) {
+                if(row < 3) {
+                    board.setPiece(row, col, new Piece(PieceType.BLACK));
+                } else if(row > 4) {
+                    board.setPiece(row, col, new Piece(PieceType.WHITE));
+                }
+            }
+        }
+
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if(board.isEmpty(row, col)) { //FIXME: If there is no image in the square, it scales wrong/sizes wrong.
+                    continue;
+                }
+                SquareController controller = squareControllers[row][col];
+                controller.setPiece();
             }
         }
     }
