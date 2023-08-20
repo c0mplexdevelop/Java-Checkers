@@ -85,7 +85,7 @@ public class BoardController {
 
         for(int row = 0; row < rows; row++) {
             for(int col = 0; col < cols; col++) {
-                if(board.isEmpty(row, col)) { //FIXME: If there is no image in the square, it scales wrong/sizes wrong.
+                if(board.isEmpty(row, col)) { //FIXED: If there is no image in the square, it scales wrong/sizes wrong.
                     continue;
                 }
                 SquareController controller = squareControllers[row][col];
