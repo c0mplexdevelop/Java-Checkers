@@ -1,9 +1,11 @@
 package rewrite;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 import javafx.geometry.VPos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
@@ -21,11 +23,15 @@ public class BoardController {
     private final Board<Piece> board;
 
     private final HBox[][] squares;
+    private final SquareController[][] squareControllers;
+    private final SquareController[][] highlightedSquareControllers;
 
     @FXML
     private GridPane rootGrid;
 
     private final Player whitePlayer, blackPlayer;
+
+    private HBox clickedSquare;
 
     public BoardController(int rows, int cols) {
         this.rows = rows;
@@ -33,6 +39,8 @@ public class BoardController {
         this.whitePlayer = new Player(PieceType.WHITE);
         this.blackPlayer = new Player(PieceType.BLACK);
         squares = new HBox[rows][cols];
+        squareControllers = new SquareController[rows][cols];
+        highlightedSquareControllers = new SquareController[rows][cols];
         board = new Board<>(rows, cols);
         System.out.println(board.getBoard());
     }
@@ -64,6 +72,7 @@ public class BoardController {
             for(int col = 0; col < cols; col++) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("SquareView.fxml"));
                 SquareController controller = new SquareController(row, col);
+                squareControllers[row][col] = controller;
                 loader.setController(controller);
                 HBox squareVBox = loader.load();
                 squares[row][col] = squareVBox; // Save this so we can add it the piece to its children.
@@ -92,6 +101,14 @@ public class BoardController {
                 controller.setPiece();
             }
         }
+
+        for(HBox[] square : squares) {
+            for(HBox squareVBox : square) {
+                squareVBox.setOnMouseClicked(hboxOnClick());
+            }
+        }
+
+        board.printReprBoard();
     }
 
     //TODO: Add piece movement
@@ -103,8 +120,88 @@ public class BoardController {
         int oldRow = piece.getRow();
 
         board.setPiece(row, col, piece);
-        board.deletePiece(oldRow, oldCol);
+        board.removePiece(oldRow, oldCol);
     }
+
+    private EventHandler<MouseEvent> hboxOnClick() {
+        return event -> {
+            HBox square = (HBox) event.getSource();
+            System.out.println(square.getStyleClass());
+            int row = GridPane.getRowIndex(square), col = GridPane.getColumnIndex(square);
+            Piece piece = board.getPiece(row, col);
+            if(piece == null) {
+                return;
+            }
+
+            if(clickedSquare != null && square != clickedSquare) {
+                int oldRow = GridPane.getRowIndex(clickedSquare);
+                int oldCol = GridPane.getColumnIndex(clickedSquare);
+                SquareController controller = squareControllers[oldRow][oldCol];
+                controller.removeHighlight();
+
+                System.out.printf("Changed Clicked square: %s%n", square);
+
+            } else if(square.equals(clickedSquare)) {
+                clickedSquare = null;
+                SquareController controller = squareControllers[row][col];
+                controller.removeHighlight();
+                clearHighlightedSquares();
+                System.out.printf("Removed Clicked square: %s%n", square);
+
+                return;
+            }
+
+            clearHighlightedSquares();
+
+            clickedSquare = square;
+            highlightSquare(row, col);
+            System.out.printf("Clicked square: %s%n", square);
+            highlightAvailableSquares(row, col);
+
+//            if(piece.getType() == PieceType.WHITE) {
+//                move(piece, row + 1, col);
+//            } else {
+//                move(piece, row - 1, col);
+//            }
+//            square.getChildren().clear();
+//            square.getChildren().add(new ImageView(new Image("rewrite/white_piece.png")));
+        };
+    }
+
+    private void highlightAvailableSquares(int squareRow, int squareCol) {
+        Piece piece = board.getPiece(squareRow, squareCol);
+        if(piece == null) {
+            return;
+        }
+
+        if(piece.getType() == PieceType.BLACK) {
+            highlightSquare(squareRow + 1, squareCol - 1);
+            highlightSquare(squareRow + 1, squareCol + 1);
+        } else {
+            highlightSquare(squareRow - 1, squareCol - 1);
+            highlightSquare(squareRow - 1, squareCol + 1);
+        }
+    }
+
+    private void clearHighlightedSquares() {
+        for(SquareController[] squareRow : highlightedSquareControllers) {
+            for(SquareController square : squareRow) {
+                if(square != null) {
+                    square.removeHighlight();
+                }
+            }
+        }
+    }
+
+    private void highlightSquare(int row, int col) {
+        if(row < 0 || row >= rows || col < 0 || col >= cols) {
+            return;
+        }
+        SquareController controller = squareControllers[row][col];
+        highlightedSquareControllers[row][col] = controller;
+        controller.setToHighlight();
+    }
+
     //TODO: Add piece capture
     //TODO: Add piece promotion
     //TODO: Add win condition
