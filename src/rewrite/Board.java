@@ -38,4 +38,17 @@ public class Board<T extends Piece> {
     public List<List<T>> getBoard() {
         return board;
     }
+
+    public void printReprBoard() {
+        for(List<T> row : board) {
+            for(T piece : row) {
+                if(piece == null) {
+                    System.out.print("0 ");
+                } else {
+                    System.out.print(piece.getType().toString().charAt(0) + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
 }
