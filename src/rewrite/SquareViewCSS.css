@@ -13,6 +13,10 @@
     -fx-background-position: center;
 }
 
-.highlighted-white {
+.highlight-white {
     -fx-background-color: red;
+}
+
+.highlight-black {
+    -fx-background-color: #c95f14;
 }
