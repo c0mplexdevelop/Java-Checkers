@@ -10,6 +10,7 @@ public class SquareController {
     private final int row, col;
 
     private boolean isClicked = false;
+    private boolean isHighlighted = false;
 
     @FXML
     private HBox squareVBox;
@@ -56,32 +57,44 @@ public class SquareController {
         if(row % 2 == 0) {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().add("highlight-white");
+                squareVBox.getStyleClass().remove("white-square");
             } else {
                 squareVBox.getStyleClass().add("highlight-black");
+                squareVBox.getStyleClass().remove("black-square");
             }
         } else {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().add("highlight-black");
+                squareVBox.getStyleClass().remove("black-square");
             } else {
                 squareVBox.getStyleClass().add("highlight-white");
+                squareVBox.getStyleClass().remove("white-square");
             }
         }
+
+        isHighlighted = true;
     }
 
     public void removeHighlight() {
         if(row % 2 == 0) {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().remove("highlight-white");
+                squareVBox.getStyleClass().add("white-square");
             } else {
                 squareVBox.getStyleClass().remove("highlight-black");
+                squareVBox.getStyleClass().add("black-square");
             }
         } else {
             if(col % 2 == 0) {
                 squareVBox.getStyleClass().remove("highlight-black");
+                squareVBox.getStyleClass().add("black-square");
             } else {
                 squareVBox.getStyleClass().remove("highlight-white");
+                squareVBox.getStyleClass().add("white-square");
             }
         }
+
+        isHighlighted = false;
     }
 
     public void setPiece() {
