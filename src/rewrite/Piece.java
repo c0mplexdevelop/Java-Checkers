@@ -1,14 +1,13 @@
 package rewrite;
 
 public class Piece {
-    private boolean isKing;
-    private PieceType type;
+    private boolean isKing = false;
+    private final PieceType type;
 
     private int row, col;
 
     public Piece(PieceType type) {
         this.type = type;
-        isKing = false;
     }
 
     public PieceType getType() {
