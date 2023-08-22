@@ -84,9 +84,9 @@ public class BoardController {
             int startCol = row % 2 == 0 ? 1 : 0;
             for(int col = startCol; col < cols; col+=2) {
                 if(row < 3) {
-                    board.setPiece(row, col, new Piece(PieceType.BLACK));
+                    board.setPiece(row, col, new Piece(row, col, PieceType.BLACK));
                 } else if(row > 4) {
-                    board.setPiece(row, col, new Piece(PieceType.WHITE));
+                    board.setPiece(row, col, new Piece(row, col, PieceType.WHITE));
                 }
             }
         }
