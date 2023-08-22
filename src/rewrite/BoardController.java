@@ -233,6 +233,21 @@ public class BoardController {
     }
 
     //TODO: Add piece capture
+    private boolean checkIfCapturable(Piece attackingPiece, Piece capturedPiece) {
+        int deltaRow = (capturedPiece.getRow() - attackingPiece.getRow());
+        int deltaCol = (capturedPiece.getCol() - attackingPiece.getCol());
+
+        int spaceBehindCapturedPieceRow = capturedPiece.getRow() + deltaRow;
+        int spaceBehindCapturedPieceCol = capturedPiece.getCol() + deltaCol;
+
+        if(spaceBehindCapturedPieceRow < 0 || spaceBehindCapturedPieceRow >= rows ||
+                spaceBehindCapturedPieceCol < 0 || spaceBehindCapturedPieceCol >= cols) {
+            return false;
+        } else if (attackingPiece.getType() == capturedPiece.getType()){
+            return false;
+        }else return board.isEmpty(spaceBehindCapturedPieceRow, spaceBehindCapturedPieceCol);
+    }
+
     //TODO: Add piece promotion
     //TODO: Add promoted piece movement
     //TODO: Add win condition
