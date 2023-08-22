@@ -205,6 +205,7 @@ public class BoardController {
 
     //TODO: Add piece capture
     //TODO: Add piece promotion
+    //TODO: Add promoted piece movement
     //TODO: Add win condition
     //TODO: Add turn system
     //TODO OPTIONAL: Add a better image for the pieces
