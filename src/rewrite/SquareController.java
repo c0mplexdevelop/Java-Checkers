@@ -24,6 +24,7 @@ public class SquareController {
     public boolean isClicked() {
         return this.isClicked;
     }
+    public boolean isHighlighted() {return this.isHighlighted;}
 
     public void setToClicked() {
         this.isClicked = true;
@@ -49,7 +50,7 @@ public class SquareController {
             }
         }
 
-        System.out.println(squareVBox.getStyleClass());
+//        System.out.println(squareVBox.getStyleClass());
 
     }
 
