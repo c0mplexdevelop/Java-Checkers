@@ -110,7 +110,7 @@ public class BoardController {
         board.printReprBoard();
     }
 
-    //TODO: Add piece movement
+    //DONE: Add piece movement
     private void move(Piece piece, int row, int col) {
         if(!board.isEmpty(row, col)) {
             return; //Not empty
