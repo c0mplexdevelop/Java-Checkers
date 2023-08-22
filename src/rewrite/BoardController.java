@@ -119,6 +119,8 @@ public class BoardController {
         int oldRow = piece.getRow();
 
         board.setPiece(row, col, piece);
+        piece.setRow(row);
+        piece.setCol(col);
         board.removePiece(oldRow, oldCol);
     }
 
