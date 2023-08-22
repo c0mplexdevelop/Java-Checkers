@@ -206,6 +206,32 @@ public class BoardController {
         controller.setToHighlight();
     }
 
+    private void updateVisualBoard() {
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                System.out.printf("Row %d Col %d%n", row, col);
+                Piece piece = board.getPiece(row, col);
+                SquareController controller = squareControllers[row][col];
+                if(piece == null) {
+                    controller.removePiece();
+                } else if(piece.getType() == PieceType.WHITE) {
+                    controller.setWhitePiece();
+                } else {
+                    controller.setBlackPiece();
+                }
+            }
+        }
+    }
+
+    private void printReprControllers() {
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                System.out.println(squareControllers[row][col]);
+            }
+            System.out.println();
+        }
+    }
+
     //TODO: Add piece capture
     //TODO: Add piece promotion
     //TODO: Add promoted piece movement
