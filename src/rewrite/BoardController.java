@@ -12,9 +12,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.HBox;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 
 public class BoardController {
     private final int rows;
