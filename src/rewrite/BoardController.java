@@ -173,6 +173,7 @@ public class BoardController {
             clickedSquare = square;
             highlightSquare(row, col);
             System.out.printf("Clicked square: %s%n", square);
+            updateVisualBoard();
             highlightAvailableSquares(row, col);
 
 //            if(piece.getType() == PieceType.WHITE) {
