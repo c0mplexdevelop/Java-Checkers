@@ -138,8 +138,21 @@ public class BoardController {
             if(clickedSquare != null && square != clickedSquare) {
                 int oldRow = GridPane.getRowIndex(clickedSquare);
                 int oldCol = GridPane.getColumnIndex(clickedSquare);
-                SquareController controller = squareControllers[oldRow][oldCol];
-                controller.removeHighlight();
+//                System.out.println(clickedController.isHighlighted());
+
+                if(clickedController.isHighlighted()) {
+                    Piece movingPiece = board.getPiece(oldRow, oldCol);
+                    if(piece != null) {
+                        System.out.println(checkIfCapturable(movingPiece, piece));
+                    } else {
+                        move(movingPiece, row, col);
+                        updateVisualBoard();
+                        clearHighlightedSquares();
+                    }
+                }
+                SquareController oldController = squareControllers[oldRow][oldCol];
+                oldController.removeHighlight();
+                clearHighlightedSquares();
 
                 System.out.printf("Changed Clicked square: %s%n", square);
                 clickedSquare = null;
