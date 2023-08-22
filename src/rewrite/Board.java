@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board<T extends Piece> {
-    private List<List<T>> board;
+    private final List<List<T>> board;
 
     public Board(int rows, int cols) {
         List<List<T>> board = new ArrayList<>();
