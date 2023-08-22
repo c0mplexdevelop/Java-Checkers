@@ -143,7 +143,8 @@ public class BoardController {
                 if(clickedController.isHighlighted()) {
                     Piece movingPiece = board.getPiece(oldRow, oldCol);
                     if(piece != null) {
-                        System.out.println(checkIfCapturable(movingPiece, piece));
+                        if(!checkIfCapturable(movingPiece, piece)) return;
+                        capture(movingPiece, piece);
                     } else {
                         move(movingPiece, row, col);
                         updateVisualBoard();
@@ -155,6 +156,7 @@ public class BoardController {
                 clearHighlightedSquares();
 
                 System.out.printf("Changed Clicked square: %s%n", square);
+                board.printReprBoard();
                 clickedSquare = null;
                 return;
 
@@ -223,7 +225,6 @@ public class BoardController {
     private void updateVisualBoard() {
         for(int row = 0; row < rows; row++) {
             for(int col = 0; col < cols; col++) {
-                System.out.printf("Row %d Col %d%n", row, col);
                 Piece piece = board.getPiece(row, col);
                 SquareController controller = squareControllers[row][col];
                 if(piece == null) {
@@ -260,6 +261,28 @@ public class BoardController {
         } else if (attackingPiece.getType() == capturedPiece.getType()){
             return false;
         }else return board.isEmpty(spaceBehindCapturedPieceRow, spaceBehindCapturedPieceCol);
+    }
+
+    private void capture(Piece attackingPiece, Piece capturedPiece) {
+        int deltaRow = (capturedPiece.getRow() - attackingPiece.getRow());
+        int deltaCol = (capturedPiece.getCol() - attackingPiece.getCol());
+
+        int spaceBehindCapturedPieceRow = capturedPiece.getRow() + deltaRow;
+        int spaceBehindCapturedPieceCol = capturedPiece.getCol() + deltaCol;
+
+        board.removePiece(capturedPiece.getRow(), capturedPiece.getCol());
+        board.removePiece(attackingPiece.getRow(), attackingPiece.getCol());
+        board.setPiece(spaceBehindCapturedPieceRow, spaceBehindCapturedPieceCol, attackingPiece);
+        SquareController capturedPieceController = squareControllers[capturedPiece.getRow()][capturedPiece.getCol()];
+        SquareController attackingPieceController = squareControllers[attackingPiece.getRow()][attackingPiece.getCol()];
+        SquareController spaceBehindCapturedPieceController = squareControllers[spaceBehindCapturedPieceRow][spaceBehindCapturedPieceCol];
+
+        attackingPieceController.removePiece();
+        capturedPieceController.removePiece();
+        spaceBehindCapturedPieceController.setPiece();
+
+        attackingPiece.setRow(spaceBehindCapturedPieceRow);
+        attackingPiece.setCol(spaceBehindCapturedPieceCol);
     }
 
     //TODO: Add piece promotion
