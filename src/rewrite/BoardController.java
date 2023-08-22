@@ -129,8 +129,9 @@ public class BoardController {
             HBox square = (HBox) event.getSource();
             System.out.println(square.getStyleClass());
             int row = GridPane.getRowIndex(square), col = GridPane.getColumnIndex(square);
+            SquareController clickedController = squareControllers[row][col];
             Piece piece = board.getPiece(row, col);
-            if(piece == null) {
+            if(piece == null && !clickedController.isHighlighted()) {
                 return;
             }
 
@@ -141,6 +142,8 @@ public class BoardController {
                 controller.removeHighlight();
 
                 System.out.printf("Changed Clicked square: %s%n", square);
+                clickedSquare = null;
+                return;
 
             } else if(square.equals(clickedSquare)) {
                 clickedSquare = null;
