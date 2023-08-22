@@ -42,7 +42,6 @@ public class BoardController {
         squareControllers = new SquareController[rows][cols];
         highlightedSquareControllers = new SquareController[rows][cols];
         board = new Board<>(rows, cols);
-        System.out.println(board.getBoard());
     }
 
     @FXML
