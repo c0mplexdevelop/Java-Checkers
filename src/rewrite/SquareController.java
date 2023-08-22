@@ -105,4 +105,14 @@ public class SquareController {
     public void removePiece() {
         squareVBox.getStyleClass().remove("red-piece");
     }
+
+    public void setWhitePiece() {
+        if(squareVBox.getStyleClass().contains("red-piece")) return;
+        squareVBox.getStyleClass().add("red-piece"); //FIXME: Add white and black piece
+    }
+
+    public void setBlackPiece() {
+        if(squareVBox.getStyleClass().contains("red-piece")) return;
+        squareVBox.getStyleClass().add("red-piece"); //FIXME: Add white and black piece
+    }
 }
