@@ -6,7 +6,9 @@ public class Piece {
 
     private int row, col;
 
-    public Piece(PieceType type) {
+    public Piece(int row, int col, PieceType type) {
+        this.row = row;
+        this.col = col;
         this.type = type;
     }
 
