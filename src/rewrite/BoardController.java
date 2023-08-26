@@ -29,8 +29,6 @@ public class BoardController {
     @FXML
     private GridPane rootGrid;
 
-    private final Player whitePlayer, blackPlayer;
-
     private HBox clickedSquare;
 
     private int whitePieceCount;
@@ -39,8 +37,6 @@ public class BoardController {
     public BoardController(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.whitePlayer = new Player(PieceType.WHITE);
-        this.blackPlayer = new Player(PieceType.BLACK);
         squares = new HBox[rows][cols];
         squareControllers = new SquareController[rows][cols];
         highlightedSquareControllers = new SquareController[rows][cols];
