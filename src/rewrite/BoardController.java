@@ -11,6 +11,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 
 public class BoardController {
@@ -23,12 +24,17 @@ public class BoardController {
     private final SquareController[][] squareControllers;
     private final SquareController[][] highlightedSquareControllers;
 
+    private PieceType currentTurn = PieceType.WHITE;
+
     @FXML
     private GridPane rootGrid;
 
     private final Player whitePlayer, blackPlayer;
 
     private HBox clickedSquare;
+
+    private int whitePieceCount;
+    private int blackPieceCount;
 
     public BoardController(int rows, int cols) {
         this.rows = rows;
@@ -82,8 +88,10 @@ public class BoardController {
             for(int col = startCol; col < cols; col+=2) {
                 if(row < 3) {
                     board.setPiece(row, col, new Piece(row, col, PieceType.BLACK));
+                    blackPieceCount++;
                 } else if(row > 4) {
                     board.setPiece(row, col, new Piece(row, col, PieceType.WHITE));
+                    whitePieceCount++;
                 }
             }
         }
@@ -130,6 +138,9 @@ public class BoardController {
             Piece piece = board.getPiece(row, col);
             if(piece == null && !clickedController.isHighlighted()) {
                 return;
+            } else if(piece != null && piece.getType() != currentTurn && clickedSquare == null) {
+                // clickedSquare is null only if we clicked a square with a piece on it.
+                return;
             }
 
             if(clickedSquare != null && square != clickedSquare) {
@@ -142,23 +153,42 @@ public class BoardController {
                     if(piece != null) {
                         if(!checkIfCapturable(movingPiece, piece)) return;
                         capture(movingPiece, piece);
+                        if(checkIfTypeWon(currentTurn)) {
+                            System.out.println(currentTurn + " won!");
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("EndScreen.fxml"));
+                            EndScreenController controller = new EndScreenController(currentTurn);
+                            loader.setController(controller);
+                            try {
+                                Stage endStage = loader.load();
+                                endStage.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        };
+
                     } else {
                         move(movingPiece, row, col);
                         updateVisualBoard();
                         clearHighlightedSquares();
                     }
+
+                    if(checkIfPromotable(movingPiece)) {
+                        promotePiece(movingPiece);
+                    }
+                    switchTurns(); // Moved here since if we click something and change squares, it will switch turns.
                 }
                 SquareController oldController = squareControllers[oldRow][oldCol];
                 oldController.removeHighlight();
                 clearHighlightedSquares();
 
+
                 System.out.printf("Changed Clicked square: %s%n", square);
                 board.printReprBoard();
-                clickedSquare = null;
+                clickedSquare = null; // reset to null since we are done with the move.
                 return;
 
             } else if(square.equals(clickedSquare)) {
-                clickedSquare = null;
+                clickedSquare = null; // refer above
                 SquareController controller = squareControllers[row][col];
                 controller.removeHighlight();
                 clearHighlightedSquares();
@@ -190,7 +220,14 @@ public class BoardController {
         if(piece == null) {
             return;
         }
-
+        if(piece.isKing()) { //highlight also the back part
+            //DONE: Add promoted piece movement
+            highlightSquare(squareRow + 1, squareCol - 1);
+            highlightSquare(squareRow + 1, squareCol + 1);
+            highlightSquare(squareRow - 1, squareCol - 1);
+            highlightSquare(squareRow - 1, squareCol + 1);
+            return;
+        }
         if(piece.getType() == PieceType.BLACK) {
             highlightSquare(squareRow + 1, squareCol - 1);
             highlightSquare(squareRow + 1, squareCol + 1);
@@ -244,7 +281,7 @@ public class BoardController {
         }
     }
 
-    //TODO: Add piece capture
+    //DONE: Add piece capture
     private boolean checkIfCapturable(Piece attackingPiece, Piece capturedPiece) {
         int deltaRow = (capturedPiece.getRow() - attackingPiece.getRow());
         int deltaCol = (capturedPiece.getCol() - attackingPiece.getCol());
@@ -267,6 +304,12 @@ public class BoardController {
         int spaceBehindCapturedPieceRow = capturedPiece.getRow() + deltaRow;
         int spaceBehindCapturedPieceCol = capturedPiece.getCol() + deltaCol;
 
+        if(capturedPiece.getType() == PieceType.BLACK) {
+            blackPieceCount--;
+        } else {
+            whitePieceCount--;
+        }
+
         board.removePiece(capturedPiece.getRow(), capturedPiece.getCol());
         board.removePiece(attackingPiece.getRow(), attackingPiece.getCol());
         board.setPiece(spaceBehindCapturedPieceRow, spaceBehindCapturedPieceCol, attackingPiece);
@@ -282,9 +325,33 @@ public class BoardController {
         attackingPiece.setCol(spaceBehindCapturedPieceCol);
     }
 
-    //TODO: Add piece promotion
-    //TODO: Add promoted piece movement
-    //TODO: Add win condition
-    //TODO: Add turn system
+    //DONE: Add piece promotion
+    private boolean checkIfPromotable(Piece piece) {
+        if(piece.getType() == PieceType.WHITE) {
+            return piece.getRow() == 0;
+        } else {
+            return piece.getRow() == rows - 1;
+        }
+    }
+
+    private void promotePiece(Piece piece) {
+        piece.promote();
+    }
+
+    //DONE: Add win condition
+    private boolean checkIfTypeWon(PieceType type) {
+        if(type == PieceType.WHITE) {
+            return blackPieceCount == 0;
+        } else {
+            return whitePieceCount == 0;
+        }
+    }
+
+
+
+    //DONE: Add turn system
+    private void switchTurns() {
+        this.currentTurn = currentTurn == PieceType.WHITE ? PieceType.BLACK : PieceType.WHITE;
+    }
     //TODO OPTIONAL: Add a better image for the pieces
 }
