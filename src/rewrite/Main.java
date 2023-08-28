@@ -12,9 +12,6 @@ import javafx.fxml.FXMLLoader;
 
 public class Main extends Application{
 
-    private static final int DEFAULT_SCREEN_WIDTH = 800;
-    private static final int DEFAULT_SCREEN_HEIGHT = 800;
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -22,9 +19,9 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuView.fxml"));
+        MenuController controller = new MenuController(primaryStage);
+        loader.setController(controller);
         AnchorPane root = loader.load();
-        root.setPrefWidth(DEFAULT_SCREEN_WIDTH);
-        root.setPrefHeight(DEFAULT_SCREEN_HEIGHT);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Checkers");
